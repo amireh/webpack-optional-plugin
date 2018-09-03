@@ -1,0 +1,27 @@
+{
+  "name": "webpack-optional-plugin",
+  "version": "1.0.0",
+  "description": "load a file from disk that may or may not exist",
+  "main": "index.js",
+  "scripts": {
+    "test": "webpack-command --config example/webpack.config.js && node example/dist/main.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/amireh/webpack-optional-plugin.git"
+  },
+  "keywords": [
+    "webpack",
+    "plugin"
+  ],
+  "author": "Ahmad Amireh",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/amireh/webpack-optional-plugin/issues"
+  },
+  "homepage": "https://github.com/amireh/webpack-optional-plugin#readme",
+  "devDependencies": {
+    "webpack": "4.17.2",
+    "webpack-command": "0.4.1"
+  }
+}
