@@ -2,7 +2,7 @@ const path = require('path')
 const NullModule = { path: path.resolve(__dirname, 'null.js') }
 
 class OptionalPlugin {
-  constructor({ include, nullModulePath }) {
+  constructor({ enabled, include, nullModulePath }) {
     if (!Array.isArray(include)) {
       this.matches = file => startsWith(file, include)
     }
@@ -14,19 +14,25 @@ class OptionalPlugin {
     }
 
     this.nullModulePath = nullModulePath || NullModule
+    this.enabled = enabled
   }
 
   apply(resolver) {
+    const { enabled, matches, nullModulePath } = this
     resolver.hooks.file.tapAsync('OptionalPlugin', (request, resolveContext, callback) => {
       const file = request.path;
+      const yieldNull = () => callback(null, Object.assign({}, request, nullModulePath))
 
-      if (!this.matches(file)) {
+      if (!matches(file)) {
         return callback()
+      }
+      else if (enabled === false) {
+        return yieldNull()
       }
 
       resolver.fileSystem.stat(file, (err, stat) => {
         if (err || !stat || !stat.isFile()) {
-          callback(null, Object.assign({}, request, this.nullModulePath))
+          yieldNull()
         }
         else {
           callback()
@@ -41,15 +47,18 @@ function startsWith(string, searchString) {
   const searchLength = searchString.length;
 
   // early out if the search length is greater than the search string
-  if(searchLength > stringLength) {
+  if (searchLength > stringLength) {
     return false;
   }
+
   let index = -1;
-  while(++index < searchLength) {
-    if(string.charCodeAt(index) !== searchString.charCodeAt(index)) {
+
+  while (++index < searchLength) {
+    if (string.charCodeAt(index) !== searchString.charCodeAt(index)) {
       return false;
     }
   }
+
   return true;
 }
 

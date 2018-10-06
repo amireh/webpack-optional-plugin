@@ -10,6 +10,7 @@ module.exports = {
   resolve: {
     plugins: [
       new WebpackOptionalPlugin({
+        enabled: process.env.NODE_ENV === 'development',
         include: [
           path.resolve(__dirname, 'src', 'fixtures')
         ]

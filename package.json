@@ -1,10 +1,10 @@
 {
   "name": "webpack-optional-plugin",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "load a file from disk that may or may not exist",
   "main": "index.js",
   "scripts": {
-    "test": "webpack-command --config example/webpack.config.js && node example/dist/main.js"
+    "test": "NODE_ENV=development webpack-command --config example/webpack.config.js && node example/dist/main.js"
   },
   "repository": {
     "type": "git",
